@@ -1,14 +1,15 @@
-package model
+package game
 
 import (
 	"fmt"
+	"hw-02/internal/model/player"
 )
 
 type Move struct {
 	startPosition string
 	endPosition   string
 	piece         rune
-	User
+	player.User
 	numMove int
 }
 

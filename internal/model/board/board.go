@@ -1,6 +1,4 @@
-package model
-
-import "fmt"
+package board
 
 //Поле должно хранить как минимум:
 
@@ -19,9 +17,13 @@ type Board struct {
 	mapPiece string
 }
 
+func (b *Board) AddSizeBoard(size int) {
+	b.size = size
+}
+
 // - сообщать размер
-func SaySize(board Board) {
-	fmt.Printf("Размер поля %v на %v", board.size, board.size)
+func (b Board) SaySize() int {
+	return b.size
 }
 
 func ShowPieceOnBoard() {

@@ -3,71 +3,49 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"hw-02/internal/model/board"
+	"hw-02/internal/model/player"
 	"os"
 )
+
+var whitePlayer = player.User{}
+var blackPlayer = player.User{}
+var playerBoard = board.Board{}
 
 func main() {
 	var a int
 
 	fmt.Println("Введите количество ячеек")
 	fmt.Scanln(&a)
+	playerBoard.AddSizeBoard(a)
 
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Введите имя игрока за белых")
 	scanner.Scan()
-	userWhite := scanner.Text()
+	userWhiteName := scanner.Text()
+
+	whitePlayer.AddName(userWhiteName)
+	whitePlayer.AddColor("Белые")
 
 	fmt.Println("Введите имя игрока за черных")
 	scanner.Scan()
-	userBlack := scanner.Text()
+	userBlackName := scanner.Text()
 
-	printLetters(a)
+	blackPlayer.AddName(userBlackName)
+	blackPlayer.AddColor("Черные")
 
-	printLine(a)
+	printLetters(playerBoard.SaySize())
 
-	blackChess := []rune{'♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'}
-	whiteChess := []rune{'♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'}
-	blackPawn := '♟'
-	whitePawn := '♙'
+	printLine(playerBoard.SaySize())
 
-	for i := 0; i < a; i++ {
+	printBoard(playerBoard.SaySize())
 
-		fmt.Printf("%v |", a-i)
+	printLine(playerBoard.SaySize())
 
-		for j := 0; j < a; j++ {
-			switch {
-			case i == 0:
-				fmt.Printf(" %c ", blackChess[j%len(blackChess)])
-
-				if j == a-1 {
-					fmt.Printf("| %s \n", userBlack)
-				}
-			case a >= 4 && i == 1:
-				fmt.Printf(" %c ", blackPawn)
-
-			case a >= 4 && i == a-2:
-				fmt.Printf(" %c ", whitePawn)
-
-			case i == a-1:
-				fmt.Printf(" %c ", whiteChess[j%len(whiteChess)])
-
-				if j == a-1 {
-					fmt.Printf("| %s \n", userWhite)
-				}
-			default:
-				printCell(i, j)
-			}
-		}
-		if i != 0 && i != a-1 {
-			fmt.Printf("| \n")
-		}
-	}
-
-	printLine(a)
-
-	printLetters(a)
+	printLetters(playerBoard.SaySize())
 
 	fmt.Println()
+
 }
 
 func printLetters(a int) {
@@ -112,4 +90,44 @@ func printCell(i, j int) {
 		fmt.Print("   ")
 	}
 
+}
+
+func printBoard(a int) {
+	blackChess := []rune{'♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜'}
+	whiteChess := []rune{'♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖'}
+	blackPawn := '♟'
+	whitePawn := '♙'
+
+	for i := 0; i < a; i++ {
+
+		fmt.Printf("%v |", a-i)
+
+		for j := 0; j < a; j++ {
+			switch {
+			case i == 0:
+				fmt.Printf(" %c ", blackChess[j%len(blackChess)])
+
+				if j == a-1 {
+					fmt.Printf("| %s \n", blackPlayer.SayName())
+				}
+			case a >= 4 && i == 1:
+				fmt.Printf(" %c ", blackPawn)
+
+			case a >= 4 && i == a-2:
+				fmt.Printf(" %c ", whitePawn)
+
+			case i == a-1:
+				fmt.Printf(" %c ", whiteChess[j%len(whiteChess)])
+
+				if j == a-1 {
+					fmt.Printf("| %s \n", whitePlayer.SayName())
+				}
+			default:
+				printCell(i, j)
+			}
+		}
+		if i != 0 && i != a-1 {
+			fmt.Printf("| \n")
+		}
+	}
 }

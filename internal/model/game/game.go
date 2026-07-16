@@ -1,12 +1,14 @@
-package model
+package game
 
 import (
 	"fmt"
+	"hw-02/internal/model/board"
+	"hw-02/internal/model/player"
 )
 
 type game struct {
-	User
-	Board
+	player.User
+	board.Board
 	Move
 	histori   []string
 	status    string

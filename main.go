@@ -3,47 +3,53 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"hw-02/internal/model/board"
-	"hw-02/internal/model/player"
+	"hw-02/internal/model/game"
 	"os"
 )
 
-var whitePlayer = player.User{}
-var blackPlayer = player.User{}
-var playerBoard = board.Board{}
+var currentGame = game.Game{}
 
 func main() {
 	var a int
 
 	fmt.Println("Введите количество ячеек")
 	fmt.Scanln(&a)
-	playerBoard.AddSizeBoard(a)
+	currentGame.SetSizeBoard(a)
 
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Введите имя игрока за белых")
 	scanner.Scan()
 	userWhiteName := scanner.Text()
 
-	whitePlayer.AddName(userWhiteName)
-	whitePlayer.AddColor("Белые")
+	currentGame.SetUserWhite(userWhiteName)
+
+	fmt.Println()
 
 	fmt.Println("Введите имя игрока за черных")
 	scanner.Scan()
 	userBlackName := scanner.Text()
 
-	blackPlayer.AddName(userBlackName)
-	blackPlayer.AddColor("Черные")
+	currentGame.SetUserBlack(userBlackName)
 
-	printLetters(playerBoard.SaySize())
+	currentGame.InfoOfTheGamePlayer()
 
-	printLine(playerBoard.SaySize())
+	startPosition := "E2"
+	endPosition := "E4"
+	piece := '♙'
+	currentGame.Move(piece, startPosition, endPosition)
 
-	printBoard(playerBoard.SaySize())
+	startPosition2 := "E7"
+	endPosition2 := "E5"
+	piece2 := '♟'
+	currentGame.Move(piece2, startPosition2, endPosition2)
 
-	printLine(playerBoard.SaySize())
+	currentGame.SayMoveHistori()
 
-	printLetters(playerBoard.SaySize())
-
+	printLetters(currentGame.SaySizeBoard())
+	printLine(currentGame.SaySizeBoard())
+	printBoard(currentGame.SaySizeBoard())
+	printLine(currentGame.SaySizeBoard())
+	printLetters(currentGame.SaySizeBoard())
 	fmt.Println()
 
 }
@@ -108,7 +114,7 @@ func printBoard(a int) {
 				fmt.Printf(" %c ", blackChess[j%len(blackChess)])
 
 				if j == a-1 {
-					fmt.Printf("| %s \n", blackPlayer.SayName())
+					fmt.Printf("| %s \n", currentGame.SayNameUserBlack())
 				}
 			case a >= 4 && i == 1:
 				fmt.Printf(" %c ", blackPawn)
@@ -120,7 +126,7 @@ func printBoard(a int) {
 				fmt.Printf(" %c ", whiteChess[j%len(whiteChess)])
 
 				if j == a-1 {
-					fmt.Printf("| %s \n", whitePlayer.SayName())
+					fmt.Printf("| %s \n", currentGame.SayNameUserWhite())
 				}
 			default:
 				printCell(i, j)

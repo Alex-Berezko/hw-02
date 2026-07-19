@@ -1,19 +1,15 @@
 package player
 
-import (
-	"fmt"
-)
-
 type User struct {
 	name       string
 	pieceColor string
 }
 
-func (u *User) AddName(name string) {
+func (u *User) SetName(name string) {
 	u.name = name
 }
 
-func (u *User) AddColor(color string) {
+func (u *User) SetColor(color string) {
 	u.pieceColor = color
 }
 
@@ -22,10 +18,12 @@ func (u User) SayName() string {
 
 }
 
-func Rename(name *User) {
-
+func (u *User) RenameUser(newName string) {
+	if newName != "" {
+		u.name = newName
+	}
 }
 
-func SayPieceColor(color User) {
-	fmt.Println(color.pieceColor)
+func (u User) SayPieceColor() string {
+	return u.pieceColor
 }

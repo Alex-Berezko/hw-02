@@ -2,29 +2,36 @@ package game
 
 import (
 	"fmt"
-	"hw-02/internal/model/player"
 )
 
 type Move struct {
 	startPosition string
 	endPosition   string
 	piece         rune
-	player.User
-	numMove int
 }
 
-func SayStartPosition(move2 Move) {
-	fmt.Printf("Начальная позиция %s", move2.startPosition)
+func (m *Move) SetStartPosition(start string) {
+	m.startPosition = start
+}
+func (m *Move) SetEndPosition(end string) {
+	m.endPosition = end
+}
+func (m *Move) SetPiece(piece rune) {
+	m.piece = piece
 }
 
-func SayEndPositio(move2 Move) {
-	fmt.Printf("Конечная позиция %s", move2.endPosition)
+func (m Move) SayMove() string {
+	return fmt.Sprintf(" %c %s → %s", m.piece, m.startPosition, m.endPosition)
+
 }
 
-func SayPieceMove(move2 Move) {
-	fmt.Printf("Ходила следующая фигура %v", move2.piece)
+func (m Move) SayEndPosition() {
+	fmt.Printf("Конечная позиция %s", m.endPosition)
 }
 
-func MovePiece(move Move) {
-	fmt.Printf("Игрок %s ходит из %s на %s", move.name, move.startPosition, move.endPosition)
+func (m Move) SayPieceMove() {
+	fmt.Printf("Ходила следующая фигура %v", m.piece)
+}
+func (m Move) SayStartPosition() {
+	fmt.Printf("Начальная позиция %s", m.startPosition)
 }
